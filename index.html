@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Track your monthly student budget and expenses.">
+	<title>Student Expense Tracker</title>
+	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%B0%3C/text%3E%3C/svg%3E">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;500;600;700;800&display=swap">
+	<link rel="stylesheet" href="style.css">
+	<script src="script.js" defer></script>
+</head>
+<body>
+	<header class="site-header">
+		<a class="brand" href="#main-content" aria-label="Student Expense Tracker home">
+			<span class="brand-mark" aria-hidden="true">ST</span>
+			<span>Student Expense Tracker</span>
+		</a>
+		<label class="month-control" for="month-filter">
+			<span>Viewing month</span>
+			<input id="month-filter" name="month" type="month">
+		</label>
+	</header>
+
+	<main id="main-content" class="page-content">
+		<section class="hero" aria-labelledby="page-title">
+			<h1 id="page-title">Left to spend this month</h1>
+			<p id="summary-remaining" class="hero-amount" aria-live="polite">0.00</p>
+			<dl class="hero-facts">
+				<div><dt>Monthly budget</dt><dd id="summary-budget">0.00</dd></div>
+				<div><dt>Total spent</dt><dd id="summary-spent">0.00</dd></div>
+			</dl>
+			<div class="budget-progress">
+				<div class="progress-label"><span>Budget used</span><span id="budget-used-label">0%</span></div>
+				<progress id="budget-progress" value="0" max="100" aria-label="Monthly budget used">0%</progress>
+			</div>
+			<div id="breakdown" class="breakdown" hidden>
+				<h2>Where it went</h2>
+				<div id="category-bar" class="category-bar" role="img"></div>
+				<ul id="category-legend" class="category-legend"></ul>
+			</div>
+		</section>
+
+		<div class="tracker-grid">
+			<section class="form-section" aria-labelledby="budget-title">
+				<div class="section-heading"><h2 id="budget-title">Set your budget</h2></div>
+				<form id="budget-form">
+					<div class="field-group">
+						<label for="budget-amount">Monthly budget amount</label>
+						<input id="budget-amount" name="budget" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00" required>
+					</div>
+					<button type="submit">Save budget</button>
+					<p id="budget-status" class="status" role="status"></p>
+				</form>
+			</section>
+
+			<section class="form-section" aria-labelledby="expense-title">
+				<div class="section-heading"><h2 id="expense-title">Add an expense</h2></div>
+				<form id="expense-form">
+					<div class="field-group">
+						<label for="expense-name">Expense name</label>
+						<input id="expense-name" name="name" type="text" autocomplete="off" placeholder="e.g. Textbooks" required>
+					</div>
+					<div class="form-row">
+						<div class="field-group">
+							<label for="expense-amount">Amount</label>
+							<input id="expense-amount" name="amount" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="0.00" required>
+						</div>
+						<div class="field-group">
+							<label for="expense-category">Category</label>
+							<select id="expense-category" name="category" required>
+								<option value="" disabled selected>Select category</option>
+								<option value="food">Food</option>
+								<option value="transport">Transport</option>
+								<option value="housing">Housing</option>
+								<option value="education">Education</option>
+								<option value="supplies">Supplies</option>
+								<option value="personal">Personal</option>
+								<option value="other">Other</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="field-group">
+							<label for="expense-date">Date</label>
+							<input id="expense-date" name="date" type="date" required>
+						</div>
+						<div class="field-group">
+							<label for="expense-note">Note <span class="optional-label">(optional)</span></label>
+							<input id="expense-note" name="note" type="text" placeholder="Add a short note">
+						</div>
+					</div>
+					<button type="submit">Add expense</button>
+				</form>
+			</section>
+		</div>
+
+		<section aria-labelledby="history-title">
+			<div class="section-heading">
+				<h2 id="history-title">Expense history</h2>
+				<span id="expense-count" aria-live="polite">0 expenses</span>
+				<button type="button" id="export-button" class="secondary-button">Export CSV</button>
+			</div>
+			<div class="table-wrapper">
+				<table>
+					<thead>
+						<tr>
+							<th scope="col">Date</th>
+							<th scope="col">Expense</th>
+							<th scope="col">Category</th>
+							<th scope="col">Note</th>
+							<th scope="col" class="amount-column">Amount</th>
+							<th scope="col"><span class="visually-hidden">Actions</span></th>
+						</tr>
+					</thead>
+					<tbody id="expense-list"></tbody>
+				</table>
+			</div>
+		</section>
+	</main>
+</body>
+</html>
